@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ blog.title }}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Blog Header -->
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="display-4">{{ post.title }}</h1>
+                <p class="text-muted">Published on {{ post.created_at|date:"F d, Y" }}</p>
+                <hr>
+            </div>
+        </div>
+
+        <!-- Blog Content -->
+        <div class="row">
+            <div class="col-md-12">
+                <p class="fs-5">{{ post.content }}</p>
+            </div>
+        </div>
+
+        <!-- Back and Edit/Delete Buttons -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <a href="{% url 'posts' %}" class="btn btn-secondary">Back to Blog List</a>
+                {% if user.is_authenticated and user == blog.author %}
+                    <a href="{% url 'update_post' post.pk %}" class="btn btn-primary">Edit</a>
+                    <form method="post" action="{% url 'delete_post' post.pk %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

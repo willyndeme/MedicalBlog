@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Search Results</h1>
+        {% if query %}
+            <p>Results for: <strong>{{ query }}</strong></p>
+            {% if results %}
+                <ul class="list-group">
+                    {% for post in results %}
+                        <li class="list-group-item">
+                            <a href="{% url 'blog_detail' post.pk %}">{{ post.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-danger">No results found for "{{ query }}"</p>
+            {% endif %}
+        {% else %}
+            <p>Please enter a search query.</p>
+        {% endif %}
+        <a href="{% url 'posts' %}" class="btn btn-secondary mt-3">Back to Blogs</a>
+    </div>
+</body>
+</html>
